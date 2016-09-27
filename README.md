@@ -3,13 +3,12 @@
 AFNetworkingTool is a useful networking tool.It's base on AFNetworking 3.0.
 You can get your data easily!
 
----------------------------------------
+
 ## How To Get Started
 
 + Download AFNetworking and import it into your apps.
 + Download AFNetworkingTool and import it into your apps.
 
----------------------------------------
  
 ## Usage
 
@@ -17,13 +16,21 @@ You can get your data easily!
     NSDictionary *params = @{@"method":@"doFindTypeJ",@"category":@"5"};
         
 #### Use GET request.
-
-    [self getRequestWithParams:params url:url];
+	[AFNetworkingTool requestWithURL:url Params:params TimeoutInterval:20 ConnectionType:ConnectionType_GET Progress:nil Success:^(id responseObject) {
+    NSDictionary *result = [self dealWithJsonData:responseObject];
+    	//NSLog(@"result:%@",result);
+    } Failure:^(NSError *error) {
+    	//NSLog(@"error:%@",error);
+    }];
 
 #### Use POST request.
 
-    [self postRequestWithParams:params url:url];
-
+	[AFNetworkingTool requestWithURL:url Params:params TimeoutInterval:20 ConnectionType:ConnectionType_POST Progress:nil Success:^(id responseObject) {
+    NSDictionary *result = [self dealWithJsonData:responseObject];
+        //NSLog(@"result:%@",result);
+    } Failure:^(NSError *error) {
+        //NSLog(@"error:%@",error);
+    }];
 
 #### Upload file.
 
@@ -34,4 +41,9 @@ You can get your data easily!
       @"name":@"", //API param
       @"fileName":@"iOS_Image"} //You fileName
     ];
-    [self multipartRequestWithParams:params url:url connectType:@"POST" fileData:fileDataArray];
+    [AFNetworkingTool multipartRequestWithURL:url Params:params FileData:fileData ConnectionType:@"POST" TimeoutInterval:20 Progress:nil Success:^(id responseObject) {
+        id result = [self dealWithJsonData:responseObject];
+        NSLog(@"result:%@",result);
+    } Failure:^(NSError *error) {
+        NSLog(@"error:%@",error);
+    }];
